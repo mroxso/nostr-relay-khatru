@@ -11,7 +11,7 @@ import (
 	"github.com/fiatjaf/khatru"
 	"github.com/fiatjaf/khatru/policies"
 
-	"github.com/fiatjaf/eventstore/sqlite3"
+	"github.com/fiatjaf/eventstore/postgresql"
 	"github.com/nbd-wtf/go-nostr"
 )
 
@@ -32,7 +32,7 @@ func main() {
 	relay.Info.Icon = "https://example.com/logo.png"
 	relay.Info.Contact = "mailto:nobody@example.com"
 
-	db := sqlite3.SQLite3Backend{DatabaseURL: "/home/nostr/nostr.db"}
+	db := postgresql.PostgresBackend{DatabaseURL: "postgres://nostr:password123@localhost/nostr"}
 	if err := db.Init(); err != nil {
 		panic(err)
 	}
