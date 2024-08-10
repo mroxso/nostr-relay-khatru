@@ -12,3 +12,5 @@ after modifying, build by running the following command:
 it will make an executable under filename "relay" in current dir.
 to start the relay, simply run:
   $ ./relay
+
+note: not accepting pull requests.
