@@ -15,7 +15,7 @@ import (
 	"github.com/nbd-wtf/go-nostr"
 )
 
-var allowedKinds = []uint16{0, 1, 3, 5, 6, 7}
+var allowedKinds = []uint16{0, 1, 3, 5, 6, 7, 10002}
 var page string = "Hello.\n\nUse me in your nostr client.\n\nThanks."
 var whiteListedIPs = []string{"127.0.0.1", "::1"}
 
