@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"time"
 	"net/http"
 	"slices"
 	"strings"
+	"time"
 
 	"github.com/fiatjaf/khatru"
 	"github.com/fiatjaf/khatru/policies"
@@ -15,7 +15,7 @@ import (
 	"github.com/nbd-wtf/go-nostr"
 )
 
-var allowedKinds = []uint16{0,1,3,5,6,7}
+var allowedKinds = []uint16{0, 1, 3, 5, 6, 7}
 var page string = "Hello.\n\nUse me in your nostr client.\n\nThanks."
 var whiteListedIPs = []string{"127.0.0.1", "::1"}
 
@@ -37,10 +37,10 @@ func main() {
 		panic(err)
 	}
 
-	relay.StoreEvent = append(relay.StoreEvent, db.SaveEvent)
+	relay.StoreEvent = append(relay.StoreEvent, EventLogger("STORE"), db.SaveEvent)
 	relay.QueryEvents = append(relay.QueryEvents, db.QueryEvents)
 	relay.CountEvents = append(relay.CountEvents, db.CountEvents)
-	relay.DeleteEvent = append(relay.DeleteEvent, db.DeleteEvent)
+	relay.DeleteEvent = append(relay.DeleteEvent, EventLogger("DELETE"), db.DeleteEvent)
 
 	relay.RejectEvent = append(relay.RejectEvent,
 		func(ctx context.Context, _ *nostr.Event) (reject bool, msg string) {
@@ -70,7 +70,7 @@ func main() {
 	)
 
 	relay.RejectConnection = append(relay.RejectConnection,
-		func (r *http.Request) bool {
+		func(r *http.Request) bool {
 			fromIP := khatru.GetIPFromRequest(r)
 			if slices.Contains(whiteListedIPs, fromIP) {
 				return false
@@ -80,7 +80,7 @@ func main() {
 		},
 	)
 
-	http.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet && r.Header.Get("Upgrade") == "websocket" {
 			relay.HandleWebsocket(w, r)
 		} else {
