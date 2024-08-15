@@ -13,6 +13,7 @@ import (
 
 	"github.com/fiatjaf/eventstore/postgresql"
 	"github.com/nbd-wtf/go-nostr"
+	"github.com/Yonle/ykp"
 )
 
 var allowedKinds = []uint16{0, 1, 3, 5, 6, 7, 10002}
@@ -59,7 +60,7 @@ func main() {
 		policies.PreventLargeTags(70),
 		policies.RejectEventsWithBase64Media,
 		policies.RestrictToSpecifiedKinds(allowedKinds...),
-		NoUpperCaseValueOfTTag,
+		ykp.NoUpperCaseValueOfTTag,
 	)
 
 	relay.RejectFilter = append(relay.RejectFilter,

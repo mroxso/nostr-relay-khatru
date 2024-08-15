@@ -1,8 +1,9 @@
 module relay
 
-go 1.22.2
+go 1.22.5
 
 require (
+	github.com/Yonle/ykp v1.0.0
 	github.com/fiatjaf/eventstore v0.5.1
 	github.com/fiatjaf/khatru v0.7.3
 	github.com/nbd-wtf/go-nostr v0.34.5
