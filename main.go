@@ -19,6 +19,10 @@ var allowedKinds = []uint16{0, 1, 3, 5, 6, 7, 10002}
 var page string = "Hello.\n\nUse me in your nostr client.\n\nThanks."
 var whiteListedIPs = []string{"127.0.0.1", "::1"}
 
+var EventIPRateLimiter = policies.EventIPRateLimiter(2, time.Minute*3, 5)
+var FilterIPRateLimiter = policies.FilterIPRateLimiter(20, time.Minute, 100)
+var ConnectionRateLimiter = policies.ConnectionRateLimiter(1, time.Minute*5, 3)
+
 func servepage(w http.ResponseWriter) {
 	fmt.Fprint(w, page)
 }
@@ -49,7 +53,7 @@ func main() {
 			if slices.Contains(whiteListedIPs, fromIP) {
 				return false, ""
 			} else {
-				return policies.EventIPRateLimiter(2, time.Minute*3, 5)(ctx, nil)
+				return EventIPRateLimiter(ctx, nil)
 			}
 		},
 		policies.PreventLargeTags(70),
@@ -64,7 +68,7 @@ func main() {
 			if slices.Contains(whiteListedIPs, fromIP) {
 				return false, ""
 			} else {
-				return policies.FilterIPRateLimiter(20, time.Minute, 100)(ctx, filter)
+				return FilterIPRateLimiter(ctx, filter)
 			}
 		},
 	)
@@ -75,7 +79,7 @@ func main() {
 			if slices.Contains(whiteListedIPs, fromIP) {
 				return false
 			} else {
-				return policies.ConnectionRateLimiter(1, time.Minute*5, 3)(r)
+				return ConnectionRateLimiter(r)
 			}
 		},
 	)
