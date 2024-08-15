@@ -59,6 +59,7 @@ func main() {
 		policies.PreventLargeTags(70),
 		policies.RejectEventsWithBase64Media,
 		policies.RestrictToSpecifiedKinds(allowedKinds...),
+		NoUpperCaseValueOfTTag,
 	)
 
 	relay.RejectFilter = append(relay.RejectFilter,
