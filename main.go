@@ -17,8 +17,10 @@ import (
 	"github.com/nbd-wtf/go-nostr"
 )
 
+const version = "2024.12.1"
+
 var allowedKinds = []uint16{0, 1, 3, 5, 6, 7, 10002}
-var page string = "Hello.\n\nUse me in your nostr client.\n\nThanks."
+var page string = "Hello.\n\nUse me in your nostr client.\n\nThanks.\n\nVersion: " + version
 var whiteListedIPs = []string{"127.0.0.1", "::1"}
 
 var EventIPRateLimiter = policies.EventIPRateLimiter(2, time.Minute*3, 5)
