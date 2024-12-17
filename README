@@ -6,8 +6,9 @@ forked, extended and maintained by mroxso
 
 it's using github.com/fiatjaf/khatru for relay implementation.
 
-- default database is postgresql, storing at postgres://nostr:password123@localhost/nostr
+- default database is postgresql
 - modify some values in main.go before running.
+- copy .env.example to .env and modify it's values.
 
 after modifying, build by running the following command:
   $ go build .
