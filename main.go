@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 	"slices"
 	"strings"
 	"time"
@@ -11,9 +12,9 @@ import (
 	"github.com/fiatjaf/khatru"
 	"github.com/fiatjaf/khatru/policies"
 
+	"github.com/Yonle/ykp"
 	"github.com/fiatjaf/eventstore/postgresql"
 	"github.com/nbd-wtf/go-nostr"
-	"github.com/Yonle/ykp"
 )
 
 var allowedKinds = []uint16{0, 1, 3, 5, 6, 7, 10002}
@@ -37,7 +38,11 @@ func main() {
 	relay.Info.Icon = "https://example.com/logo.png"
 	relay.Info.Contact = "mailto:nobody@example.com"
 
-	db := postgresql.PostgresBackend{DatabaseURL: "postgres://nostr:password123@localhost/nostr"}
+	dbHost := os.Getenv("DB_HOST")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	// dbUsername := os.Getenv("DB_USERNAME")
+	dbUsername := "postgres"
+	db := postgresql.PostgresBackend{DatabaseURL: fmt.Sprintf("postgres://%s:%s@%s/nostr?sslmode=disable", dbUsername, dbPassword, dbHost)}
 	if err := db.Init(); err != nil {
 		panic(err)
 	}
@@ -99,6 +104,6 @@ func main() {
 		}
 	})
 
-	fmt.Println("Blowing up on localhost:7777")
-	http.ListenAndServe("localhost:7777", nil)
+	fmt.Println("Blowing up on 0.0.0.0:7777")
+	http.ListenAndServe("0.0.0.0:7777", nil)
 }
