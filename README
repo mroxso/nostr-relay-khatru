@@ -1,5 +1,8 @@
+⚠️ This project is work in progress! ⚠️
+
 nostr relay (with khatru)
 written by: yonle
+forked, extended and maintained by mroxso
 
 it's using github.com/fiatjaf/khatru for relay implementation.
 
@@ -12,5 +15,3 @@ after modifying, build by running the following command:
 it will make an executable under filename "relay" in current dir.
 to start the relay, simply run:
   $ ./relay
-
-note: not accepting pull requests.
